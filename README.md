@@ -1,1 +1,1 @@
-# Learning sandbox for creating python apps with kivy gui framework
+# Learning sandbox for creating python apps with kivy and kivymd gui
