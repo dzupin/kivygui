@@ -7,21 +7,56 @@ from kivymd.uix.label import MDLabel
 from kivymd.uix.toolbar import MDToolbar
 
 class ConverterApp(MDApp):
-    def flip(selfself):
-        print("working")
+    def flip(self):
+        if self.state == 0:
+            self.state = 1
+            self.theme_cls.primary_palette = "Red"
+            self.toolbar.title = "Decimal to Binary"
+            self.input.text = "Enter decimal number"
+        else:
+            self.state = 0
+            self.theme_cls.primary_palette = "DeepOrange"
+            self.toolbar.title = "Binary to Decimal"
+            self.input.text = "Enter binary number"
+        self.converted.text = ""
+        self.label.text = ""
+
+    def placeholder(selfself):
+        print("Placeholder function")
 
     def convert(self,args):
-        val = int(self.input.text,2)
-        self. converted.text = str(val)
-        self.label.text = "Converted decimal value: "
+        try:
+            if self.state == 0:
+                # binary to decimal
+
+                val = str(int(self.input.text, 2))
+                self.label.text = "Decimal value is:"
+            else:
+                # decimal to binary
+
+                val = bin(int(self.input.text))[2:]
+                self.label.text = "Binary value is:"
+            self.converted.text = val
+        except ValueError:
+            self.converted.text=""
+            if self.state == 0:
+                self.label.text = "Replace " + self.input.text  + " with valid binary number"
+            if self.state == 1:
+                self.label.text = "Replace " + self.input.text  + " with valid decimal number"
+            self.input.text = ""
+
+
+
 
     def build(self):
+        self.state = 0
+
         self.theme_cls.primary_palette = "Red"
         screen = MDScreen()
         #UI Widgets go here
         self.toolbar = MDToolbar(title="Binary to Decimal")
         self.toolbar.pos_hint = {"top":1}
-        self.toolbar.right_action_items=[["rotate-3d-variant", lambda  x:self.flip()],["dots-vertical", lambda  x:self.flip()],["account", lambda  x:self.flip()]]
+        self.toolbar.right_action_items=[["rotate-3d-variant", lambda  x:self.flip()],["dots-vertical", lambda  x:self.placeholder()],["account", lambda  x:self.placeholder()]]
         screen.add_widget(self.toolbar)
 
         #Logo (transparent png image)
